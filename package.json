@@ -1,0 +1,43 @@
+{
+  "name": "apollo-server",
+  "version": "1.0.0",
+  "description": "# What IS GraphQl ### \"A Query language for API\" ##### GraphQl is a Query language for APIs and runtime for fullfill Queries with our existing data. It's provides a complete and understandable discription of the data in our APIs. It's gives clients the power to ask for exactly what they need and nothing more.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx babel-node extra",
+    "start": "tsc-watch --project . --onSuccess \"npm run nodemon\"",
+    "nodemon": "nodemon --exec babel-node src",
+    "lint": "./node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json --exclude 'node_modules/**/*.{j,t}s'",
+    "lint:fix": "npm run lint --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chandramfp/apollo-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chandramfp/apollo-server/issues"
+  },
+  "homepage": "https://github.com/chandramfp/apollo-server#readme",
+  "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/node": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "nodemon": "^2.0.4",
+    "tsc-watch": "^4.2.8"
+  },
+  "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.10.1",
+    "@mobylogix/merge-graphql-schemas": "^1.5.4",
+    "apollo-server-express": "^2.14.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "graphql": "^15.1.0",
+    "express-graphql": "^0.9.0",
+    "merge-graphql-schemas": "^1.7.8",
+    "typescript": "^3.9.5"
+  }
+}
