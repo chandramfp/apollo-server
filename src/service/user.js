@@ -5,7 +5,7 @@ class User {
     }
 
     getAllUsers() {
-        let mapToArray = Array.from(this.users.values());
+        const mapToArray = Array.from(this.users.values());
         return mapToArray;
     }
 
