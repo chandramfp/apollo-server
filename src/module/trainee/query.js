@@ -1,10 +1,10 @@
 import userInterface from '../../service/user'; 
 
 export default {
-    getAllTrainee: () => {
-        console.log("hi")
-        return userInterface.getAllUsers();
-    },
+    getAllTrainee: () => 
+        // console.log("hi")
+         userInterface.getAllUsers()
+    ,
     
     getTrainee: (parent, args, context) => {
         const { id } = args;
