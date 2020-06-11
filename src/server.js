@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import { ApolloServer } from 'apollo-server-express';
 import { createServer } from 'http';
 const graphqlHTTP = require('express-graphql');
+import { UserAPI } from './datasource/index';
 
 
 class Server {
@@ -57,7 +58,14 @@ class Server {
 
     async setupApolloServer(schema) {
         const { app } = this;
-        this.server = new ApolloServer({ ...schema });
+        this.server = new ApolloServer({
+            ...schema,
+            dataSources: () => {
+                return {
+                    userAPI: new UserAPI(),
+                };
+            },
+        });
         this.server.applyMiddleware({ app });
         this.httpServer = createServer(app);
         this.server.installSubscriptionHandlers(this.httpServer);
