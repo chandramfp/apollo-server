@@ -9,6 +9,7 @@ type Mutation {
     createTrainee(user: CreateUserInput): User!
     deleteTrainee(id: ID!): ID!
     updateTrainee(id: ID!, role: String): User!
+    loginUser(payload: InputCredentials): String!
 }
 
 type Subscription {
