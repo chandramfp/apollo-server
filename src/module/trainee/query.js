@@ -1,14 +1,19 @@
-import userInterface from '../../service/user'; 
+import { UserInputError } from 'apollo-server';
+
 
 export default {
-    getAllTrainee: () => 
-        // console.log("hi")
-         userInterface.getAllUsers()
-    ,
-    
-    getTrainee: (parent, args, context) => {
-        const { id } = args;
-        return userInterface.getUser(id);
-    }
-
+    getTrainee: async (parent, args, context) => {
+        try {
+            const {
+                dataSources: { traineeAPI },
+            } = context;
+            const response = await traineeAPI.getTrainee(args);
+            return response.data.records;
+        } catch (error) {
+            return new UserInputError('Arguments are invalid', {
+                invalidArgs: Object.keys(args),
+            });
+        }
+    },
 };
+

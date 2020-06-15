@@ -1,25 +1,75 @@
-import userInstance from '../../service/user';
+import { UserInputError } from 'apollo-server';
 import pubsub from '../pubsub';
 import constant from '../../lib/constant';
 
 export default {
-    createTrainee: (parent, args, context) => {
-        // console.log("hello");
-        const { user } = args;
-        const addUser= userInstance.createUser(user);
-        pubsub.publish(constant.subscriptions.TRAINEE_ADDED, {traineeAdded: addUser});
-        return addUser;
-    },
-    updateTrainee: (parent, args, context) => {
-        const { id, role } = args;
-        const updatedUser = userInstance.updateUser(id, role);
-        pubsub.publish(constant.subscriptions.TRAINEE_UPDATED, {traineeUpdated: updatedUser});
-        return updatedUser;
-    },
-    deleteTrainee: (parent, args, context) => {
-        const { id } = args;
-        const deletedId = userInstance.deleteUser(id);
-        pubsub.publish(constant.subscriptions.TRAINEE_DELETED, {traineeDeleted: deletedId});
-        return deletedId;
+  createTrainee: async (parent, args, context) => {
+    try {
+      const {
+        payload: { name, email, role, password },
+      } = args;
+      const {
+        dataSources: { traineeAPI },
+      } = context;
+      const response = await traineeAPI.createTrainee({
+        name,
+        email,
+        role,
+        password,
+      });
+      pubsub.publish(constant.subscriptions.TRAINEE_ADDED, {
+        traineeAdded: response.data,
+      });
+      return response.data;
+    } catch (error) {
+      return new UserInputError('Arguments are invalid', {
+        invalidArgs: Object.keys(args),
+      });
     }
+  },
+
+  
+  updateTrainee: async (parent, args, context) => {
+    try {
+      const {
+        payload: { id, name, email, password },
+      } = args;
+      const {
+        dataSources: { traineeAPI },
+      } = context;
+      const response = await traineeAPI.updateTrainee({
+        id,
+        name,
+        email,
+        password,
+      });
+      pubsub.publish(constant.subscriptions.TRAINEE_UPDATED, {
+        traineeUpdated: response.data.id,
+      });
+      return response.data.id;
+    } catch (error) {
+      return new UserInputError('Arguments are invalid', {
+        invalidArgs: Object.keys(args),
+      });
+    }
+  },
+
+
+  deleteTrainee: async (parent, args, context) => {
+    try {
+      const { id } = args;
+      const {
+        dataSources: {traineeAPI },
+      } = context;
+      const response = await traineeAPI.deleteTrainee(id);
+      pubsub.publish(constant.subscriptions.TRAINEE_DELETED, {
+        traineeDeleted: response.data.id,
+      });
+      return response.data.id;
+    } catch (error) {
+      return new UserInputError('Arguments are invalid', {
+        invalidArgs: Object.keys(args),
+      });
+    }
+  },
 };

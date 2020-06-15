@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import { ApolloServer } from 'apollo-server-express';
 import { createServer } from 'http';
 const graphqlHTTP = require('express-graphql');
-import { UserAPI } from './datasource/index';
+import { UserAPI, TraineeAPI } from './datasource/index';
 
 
 class Server {
@@ -63,8 +63,15 @@ class Server {
             dataSources: () => {
                 return {
                     userAPI: new UserAPI(),
+                    traineeAPI: new TraineeAPI(),
                 };
             },
+            context: ({ req }) => {
+                if (req) {
+                    return { token: req.headers.authorization };
+                }
+                return {};
+            }
         });
         this.server.applyMiddleware({ app });
         this.httpServer = createServer(app);
