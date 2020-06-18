@@ -14,6 +14,7 @@ export class TraineeAPI extends RESTDataSource {
 
     async getTrainee(options) {
         const { data: { skip, limit } } = options;
+        // console.log("hiiiiiiiiii", await this.get('/', { skip, limit }))
         return await this.get('/', { skip, limit });
         // return this.get('/', options);
     }
