@@ -21,3 +21,9 @@ input getUserData {
   skip: Int
   limit: Int
 }
+
+
+type getData {
+  records: [User]
+  count: Int
+}

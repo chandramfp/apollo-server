@@ -5,6 +5,7 @@ type User {
     role: String!
     password: String!
     originalId: ID
+    createdAt: ID
 }
 
 
